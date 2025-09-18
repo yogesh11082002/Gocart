@@ -105,7 +105,7 @@ const AboutPage = () => {
         {/* Header Section */}
         <div className="text-center space-y-4">
           <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-green-500 to-green-300 bg-clip-text text-transparent">
-            About Printo
+            About Gocart
           </h1>
           <p className="text-gray-700 text-lg sm:text-xl">
             Your one-stop e-commerce platform for gadgets, electronics, and more. We make shopping fast, safe, and delightful.

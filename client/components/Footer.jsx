@@ -169,10 +169,10 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-start justify-between gap-10 py-10 border-b border-slate-500/30 text-slate-500">
           <div>
             <Link href="/" className="text-4xl font-semibold text-slate-700">
-              <span className="text-green-600">Pr</span>into<span className="text-green-600 text-5xl leading-0">.</span>
+              <span className="text-green-600">Go</span>Cart<span className="text-green-600 text-5xl leading-0">.</span>
             </Link>
             <p className="max-w-[410px] mt-6 text-sm">
-              Welcome to Printo, your ultimate destination for the latest and smartest gadgets. From smartphones and smartwatches to essential accessories, we bring you the best in innovation — all in one place.
+              Welcome to Gocart, your ultimate destination for the latest and smartest gadgets. From smartphones and smartwatches to essential accessories, we bring you the best in innovation — all in one place.
             </p>
             <div className="flex items-center gap-3 mt-5">
               {socialIcons.map((item, i) => (
@@ -201,7 +201,7 @@ const Footer = () => {
         </div>
 
         <p className="flex items-center justify-center py-4 text-sm text-slate-500">
-          Copyright 2025 © Printo All Right Reserved.
+          Copyright 2025 © Gocart All Right Reserved.
         </p>
       </div>
     </footer>
