@@ -180,7 +180,7 @@ const HeaderSlider = () => {
         {sliderData.map((slide) => (
           <div
             key={slide.id}
-            className={`relative flex-1 flex flex-col ${slide.bgColor} rounded-2xl min-w-full h-[580px] sm:h-full`}
+            className={`relative flex-1 flex flex-col ${slide.bgColor} rounded-2xl min-w-full h-[550px] sm:h-full`}
           >
             <div className="p-4 sm:p-6">
               {/* Offer bar */}
