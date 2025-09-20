@@ -133,7 +133,7 @@ const Hero = () => {
             <div
               key={i}
               ref={(el) => (cardsRef.current[i] = el)}
-              className={`flex-1 flex items-center justify-between min-h-[200px] sm:min-h-[100px] sm:max-h-[140px] p-4 rounded-2xl group ${
+              className={`flex-1 flex items-center justify-between min-h-[200px] sm:min-h-[150px] sm:max-h-[140px] p-4 rounded-2xl group ${
                 i === 0 ? 'bg-orange-200' : 'bg-blue-200'
               }`}
             >
