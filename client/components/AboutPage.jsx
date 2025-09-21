@@ -1,159 +1,129 @@
-// 'use client'
-// import React, { useEffect, useRef } from 'react';
-// import { motion } from 'framer-motion';
-// import { gsap } from 'gsap';
-// import Image from 'next/image';
-// import { assets } from '@/assets/assets';
+'use client';
 
-// const AboutPage = () => {
-//   const heroRef = useRef(null);
-//   const missionRef = useRef(null);
-
-//   useEffect(() => {
-//     // GSAP animation for hero text
-//     gsap.from(heroRef.current, {
-//       opacity: 0,
-//       y: -50,
-//       duration: 1,
-//       ease: 'power3.out',
-//     });
-
-//     // Mission section animation on scroll
-//     gsap.from(missionRef.current, {
-//       scrollTrigger: {
-//         trigger: missionRef.current,
-//         start: 'top 80%',
-//       },
-//       opacity: 0,
-//       x: -100,
-//       duration: 1,
-//       stagger: 0.2,
-//     });
-//   }, []);
-
-//   return (
-//     <div className='px-6 max-w-7xl mx-auto py-10 space-y-20'>
-//       {/* Hero Section */}
-//       <section className='flex flex-col md:flex-row items-center gap-10'>
-//         <motion.div
-//           ref={heroRef}
-//           initial={{ opacity: 0, x: -50 }}
-//           animate={{ opacity: 1, x: 0 }}
-//           transition={{ duration: 1 }}
-//           className='flex-1'
-//         >
-//           <h1 className='text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-blue-500'>
-//             About Printo
-//           </h1>
-//           <p className='mt-6 text-lg text-slate-700'>
-//             Printo is your ultimate e-cart solution. Shop smarter, faster, and safer.
-//           </p>
-//         </motion.div>
-//         <div className='flex-1'>
-//           <Image src={assets.hero_model_img} alt='Printo Hero' className='rounded-xl' />
-//         </div>
-//       </section>
-
-//       {/* Our Mission / Vision */}
-//       <section ref={missionRef} className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
-//         <motion.div whileHover={{ scale: 1.05 }} className='p-8 bg-green-100 rounded-2xl shadow-lg'>
-//           <h3 className='text-xl font-semibold'>Our Mission</h3>
-//           <p className='mt-4 text-slate-700'>Provide the best shopping experience to every customer.</p>
-//         </motion.div>
-//         <motion.div whileHover={{ scale: 1.05 }} className='p-8 bg-blue-100 rounded-2xl shadow-lg'>
-//           <h3 className='text-xl font-semibold'>Our Vision</h3>
-//           <p className='mt-4 text-slate-700'>Revolutionize online shopping with innovation and trust.</p>
-//         </motion.div>
-//         <motion.div whileHover={{ scale: 1.05 }} className='p-8 bg-orange-100 rounded-2xl shadow-lg'>
-//           <h3 className='text-xl font-semibold'>Our Promise</h3>
-//           <p className='mt-4 text-slate-700'>Quality, speed, and satisfaction guaranteed.</p>
-//         </motion.div>
-//       </section>
-
-//       {/* CTA */}
-//       <section className='text-center'>
-//         <motion.button
-//           whileHover={{ scale: 1.05 }}
-//           className='bg-gradient-to-r from-green-500 to-blue-500 text-white px-10 py-4 rounded-full text-lg font-semibold'
-//         >
-//           Explore Products
-//         </motion.button>
-//       </section>
-//     </div>
-//   );
-// };
-
-// export default AboutPage;
- 'use client'
-
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Link from 'next/link';
 
 const AboutPage = () => {
-  return (
-    <>
-      <Navbar />
+  // Generate floating background shapes
+  const shapes = useMemo(() => {
+    return Array.from({ length: 10 }).map(() => ({
+      size: 50 + Math.random() * 100,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      delay: Math.random() * 5,
+    }));
+  }, []);
 
+  return (
+    <div className="relative min-h-screen flex flex-col bg-gradient-to-br from-[#0a0f1f] via-[#101735] to-[#0a0f1f] overflow-hidden text-white">
+      <Navbar bg="bg-transparent" />
+
+      {/* Floating shapes */}
+      <motion.div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        {shapes.map((shape, index) => (
+          <motion.div
+            key={index}
+            className="absolute bg-purple-600 rounded-full opacity-20 blur-3xl"
+            style={{
+              width: `${shape.size}px`,
+              height: `${shape.size}px`,
+              top: `${shape.top}%`,
+              left: `${shape.left}%`,
+            }}
+            animate={{ y: [0, 30, 0], x: [0, 30, 0] }}
+            transition={{
+              duration: 12 + Math.random() * 8,
+              repeat: Infinity,
+              repeatType: 'mirror',
+              ease: 'easeInOut',
+              delay: shape.delay,
+            }}
+          />
+        ))}
+      </motion.div>
+
+      {/* Header Section */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="max-w-6xl mx-auto px-6 py-20 space-y-16"
+        className="max-w-6xl mx-auto px-6 py-28 text-center relative z-10"
       >
-        {/* Header Section */}
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-green-500 to-green-300 bg-clip-text text-transparent">
-            About Gocart
-          </h1>
-          <p className="text-gray-700 text-lg sm:text-xl">
-            Your one-stop e-commerce platform for gadgets, electronics, and more. We make shopping fast, safe, and delightful.
-          </p>
-        </div>
-
-        {/* Features / Why Choose Us Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {[
-            {
-              title: "Fast & Reliable Delivery",
-              description:
-                "We ensure your products reach you on time with top-notch logistics partners.",
-            },
-            {
-              title: "Secure Shopping",
-              description:
-                "Your privacy and security are our top priorities. Shop with confidence on Printo.",
-            },
-            {
-              title: "Best Prices",
-              description:
-                "We offer competitive prices on all our products, with regular deals and discounts.",
-            },
-            {
-              title: "Customer Support",
-              description:
-                "Our support team is available 24/7 to help you with any questions or concerns.",
-            },
-          ].map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ scale: 0.95, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="p-6 bg-green-50 rounded-2xl shadow-md cursor-pointer"
-            >
-              <h2 className="text-2xl font-semibold mb-3 text-green-700">{feature.title}</h2>
-              <p className="text-gray-600">{feature.description}</p>
-            </motion.div>
-          ))}
-        </div>
+        <h1 className="text-5xl sm:text-6xl font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+          About <span className="text-pink-400">GoCart</span>
+        </h1>
+        <p className="mt-6 text-gray-300 text-lg sm:text-xl max-w-3xl mx-auto">
+          Your one-stop e-commerce platform for gadgets, electronics, and more. We make shopping fast, safe, and delightful.
+        </p>
       </motion.div>
 
-      <Footer />
-    </>
+      {/* Why Choose Us Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="relative z-10 max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-20"
+      >
+        {[
+          {
+            title: "Fast & Reliable Delivery",
+            description:
+              "We ensure your products reach you on time with top-notch logistics partners.",
+            color: "from-pink-500 to-purple-500",
+          },
+          {
+            title: "Secure Shopping",
+            description:
+              "Your privacy and security are our top priorities. Shop with confidence.",
+            color: "from-blue-500 to-indigo-500",
+          },
+          {
+            title: "Best Prices",
+            description:
+              "We offer competitive prices on all our products, with regular deals and discounts.",
+            color: "from-green-400 to-teal-500",
+          },
+          {
+            title: "Customer Support",
+            description:
+              "Our support team is available 24/7 to help you with any questions or concerns.",
+            color: "from-yellow-400 to-orange-500",
+          },
+        ].map((item, idx) => (
+          <motion.div
+            key={idx}
+            whileHover={{ scale: 1.05, boxShadow: "0 15px 30px rgba(0,0,0,0.2)" }}
+            className={`p-6 rounded-2xl bg-gradient-to-br ${item.color} shadow-lg cursor-pointer`}
+          >
+            <h3 className="text-2xl font-bold mb-3 text-white">{item.title}</h3>
+            <p className="text-gray-100">{item.description}</p>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* CTA Section */}
+ 
+<motion.div
+  initial={{ opacity: 0, y: 30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.8 }}
+  className="relative z-10 text-center py-16"
+>
+  <Link href="/shop">
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-12 py-4 rounded-full text-lg font-semibold shadow-xl"
+    >
+      Explore Products
+    </motion.button>
+  </Link>
+</motion.div>
+
+    </div>
   );
 };
 

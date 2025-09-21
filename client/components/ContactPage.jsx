@@ -1,135 +1,136 @@
-'use client'
+'use client';
+import React, { useRef, useState, useMemo } from "react";
+import { motion } from "framer-motion";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { toast } from 'react-hot-toast';
+import Navbar from "@/components/Navbar";
+
 
 const ContactPage = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const form = useRef();
+  const [result, setResult] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const shapes = useMemo(() => {
+    return Array.from({ length: 12 }).map(() => ({
+      width: 60 + Math.random() * 100,
+      height: 60 + Math.random() * 100,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      delay: Math.random() * 5,
+    }));
+  }, []);
 
-  const handleSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    toast.success('Message sent successfully!');
-    setFormData({ name: '', email: '', message: '' });
+    setResult("Sending...");
+    const formData = new FormData(form.current);
+    formData.append("access_key", "2428512a-f0dc-41b9-b674-f28901f47325");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      if (data.success) {
+        setResult("Form Submitted Successfully ✅");
+        toast.success("Message sent successfully! 🚀", { position: "top-right", autoClose: 3000, theme: "dark" });
+        form.current.reset();
+      } else {
+        setResult("Failed to submit ❌");
+        toast.error("Failed to send message. Please try again.", { position: "top-right", autoClose: 3000, theme: "dark" });
+      }
+    } catch (error) {
+      setResult("Failed to submit ❌");
+      toast.error("An error occurred. Please try again.", { position: "top-right", autoClose: 3000, theme: "dark" });
+    }
   };
+
+  // Dark gradient for this page
+  const pageBg = "bg-gradient-to-br from-[#0a0f1f] via-[#101735] to-[#0a0f1f]";
 
   return (
-    <>
-      <Navbar />
+    <div className={`relative overflow-hidden min-h-screen flex flex-col ${pageBg}`}>
+      <ToastContainer />
 
-      <div className="relative overflow-hidden">
-        {/* Background floating shapes */}
-        <motion.div
-          className="absolute top-0 left-0 w-full h-full pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          {Array.from({ length: 15 }).map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute bg-green-200 rounded-full opacity-30"
-              style={{
-                width: `${50 + Math.random() * 100}px`,
-                height: `${50 + Math.random() * 100}px`,
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-              }}
-              animate={{ y: [0, 20, 0], x: [0, 20, 0] }}
-              transition={{ duration: 10 + Math.random() * 10, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
-            />
-          ))}
-        </motion.div>
+      {/* Navbar with page-specific background */}
+      <Navbar bg={pageBg} />
 
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="relative max-w-4xl mx-auto px-6 py-20 space-y-16 z-10"
-        >
-          {/* Header */}
-          <div className="text-center space-y-4">
-            <motion.h1
-              className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-green-500 to-green-300 bg-clip-text text-transparent"
-              initial={{ y: -30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8 }}
-            >
-              Contact Us
-            </motion.h1>
-            <motion.p
-              className="text-gray-700 text-lg sm:text-xl"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.3 }}
-            >
-              Have questions or need support? Reach out to us and we’ll get back to you as soon as possible.
-            </motion.p>
+      {/* Floating shapes */}
+      <motion.div
+        className="absolute top-0 left-0 w-full h-full pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        {shapes.map((shape, i) => (
+          <motion.div
+            key={i}
+            className="absolute bg-blue-500 rounded-full opacity-20 blur-3xl"
+            style={{
+              width: `${shape.width}px`,
+              height: `${shape.height}px`,
+              top: `${shape.top}%`,
+              left: `${shape.left}%`,
+            }}
+            animate={{ y: [0, 30, 0], x: [0, 30, 0] }}
+            transition={{
+              duration: 12 + Math.random() * 10,
+              repeat: Infinity,
+              repeatType: "mirror",
+              ease: "easeInOut",
+              delay: shape.delay,
+            }}
+          />
+        ))}
+      </motion.div>
+
+      {/* Contact Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="relative z-10 w-full max-w-2xl mx-auto mt-32 bg-[#0d1025]/90 p-10 rounded-2xl shadow-2xl border border-gray-700"
+      >
+        <div className="text-center mb-8">
+          <h2 className="text-4xl font-bold text-pink-600">
+            Gocart
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-3 rounded" />
+          <p className="text-gray-400 mt-3">
+            Have questions about your orders, products, or partnership opportunities? Our GoCart team is here to help 🚀
+          </p>
+        </div>
+
+        <form ref={form} onSubmit={onSubmit} className="flex flex-col space-y-5">
+          <input type="text" name="name" placeholder="Your Name" required className="p-3 rounded-md bg-[#131933] text-white border border-gray-600 focus:outline-none focus:border-blue-500"/>
+          <input type="email" name="email" placeholder="Your Email" required className="p-3 rounded-md bg-[#131933] text-white border border-gray-600 focus:outline-none focus:border-blue-500"/>
+          <input type="text" name="subject" placeholder="Subject" required className="p-3 rounded-md bg-[#131933] text-white border border-gray-600 focus:outline-none focus:border-blue-500"/>
+          <textarea name="message" placeholder="Message" rows="4" required className="p-3 rounded-md bg-[#131933] text-white border border-gray-600 focus:outline-none focus:border-blue-500"/>
+          <motion.button type="submit" whileHover={{ scale: 1.05, opacity: 0.9 }} whileTap={{ scale: 0.95 }} className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-md shadow-md transition">
+            Send Message
+          </motion.button>
+        </form>
+
+        <p className="text-center mt-4 text-gray-400">{result}</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 text-center">
+          <div className="bg-[#131933] p-5 rounded-xl border border-gray-700">
+            <h3 className="text-blue-400 font-semibold">Customer Support</h3>
+            <p className="text-gray-300 mt-1">support@gocart.com</p>
           </div>
-
-          {/* Contact Form */}
-          <motion.form
-            onSubmit={handleSubmit}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="grid grid-cols-1 gap-6"
-          >
-            {['name', 'email', 'message'].map((field, i) => (
-              <motion.input
-                key={i}
-                as={field === 'message' ? 'textarea' : 'input'}
-                type={field === 'email' ? 'email' : 'text'}
-                name={field}
-                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                value={formData[field]}
-                onChange={handleChange}
-                whileFocus={{ scale: 1.02, borderColor: "#34D399" }}
-                className={`p-4 border rounded-xl outline-none text-gray-700 ${field === 'message' ? 'resize-none h-36' : ''}`}
-                required
-              />
-            ))}
-            <motion.button
-              type="submit"
-              whileHover={{ scale: 1.05, backgroundColor: "#10B981" }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-green-600 text-white py-3 rounded-xl font-medium transition"
-            >
-              Send Message
-            </motion.button>
-          </motion.form>
-
-          {/* Contact Info */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
-            {[
-              { title: "Email", value: "support@printo.com" },
-              { title: "Phone", value: "+91 98765 43210" },
-              { title: "Address", value: "123 Printo Street, Ghaziabad, Utar pradesh " },
-            ].map((info, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-                className="p-6 bg-green-50 rounded-2xl text-center cursor-pointer transition-all"
-              >
-                <h2 className="text-lg font-semibold text-green-700 mb-2">{info.title}</h2>
-                <p className="text-gray-600">{info.value}</p>
-              </motion.div>
-            ))}
+          <div className="bg-[#131933] p-5 rounded-xl border border-gray-700">
+            <h3 className="text-blue-400 font-semibold">Phone</h3>
+            <p className="text-gray-300 mt-1">+91 98765 43210</p>
           </div>
-        </motion.div>
-      </div>
-
-      <Footer />
-    </>
+          <div className="bg-[#131933] p-5 rounded-xl border border-gray-700">
+            <h3 className="text-blue-400 font-semibold">Head Office</h3>
+            <p className="text-gray-300 mt-1">123 , New Street, Delhi, India</p>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 };
 
