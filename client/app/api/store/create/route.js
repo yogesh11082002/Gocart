@@ -100,3 +100,37 @@ export async function POST(request) {
   }
 }
 
+
+export async function GET(request) {
+  try {
+    const { userId } = getAuth(request);
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const  store = await prisma.store.findFirst(
+        {
+            where:{userId:userId}
+        }
+    )
+    if (store) {
+        return NextResponse.json({status: store.status})
+    }
+    
+    return NextResponse.json(
+      {
+        status :"not registered"
+      }
+    );
+  } catch (error) {
+    console.error("GET error:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}

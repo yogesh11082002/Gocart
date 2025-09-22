@@ -138,7 +138,7 @@ const HeaderSlider = () => {
     },
     {
       id: 2,
-      title: "Upgrade Your Workspace - Premium Keyboards",
+      title: "Next-Level Sound - Crystal Clear Speakers",
       offer: "Limited Time Offer 20% OFF",
       price: "9.99",
       imgSrc: assets.product_img5,
@@ -146,7 +146,7 @@ const HeaderSlider = () => {
     },
     {
       id: 3,
-      title: "Next-Level Sound - Crystal Clear Earbuds",
+      title: "Next-Level Security - Crystal Clear Vision",
       offer: "Hurry! Only Few Left",
       price: "12.50",
       imgSrc: assets.product_img6,
@@ -154,7 +154,7 @@ const HeaderSlider = () => {
     },
     {
       id: 4,
-      title: "Smartwatch Collection - Stay Connected",
+      title: "SmartPen Collection - Stay Connected",
       offer: "Special Offer 15% Off",
       price: "15.00",
       imgSrc: assets.product_img7,
