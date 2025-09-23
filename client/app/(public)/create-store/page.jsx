@@ -1,157 +1,4 @@
 // "use client";
-// import { assets } from "@/assets/assets";
-// import { useEffect, useState } from "react";
-// import Image from "next/image";
-// import toast from "react-hot-toast";
-// import Loading from "@/components/Loading";
-// import { useAuth, useUser } from "@clerk/nextjs";
-// import { useRouter } from "next/navigation";
-// import axios from "axios";
-
-// export default function CreateStore() {
-//   const { user } = useUser();
-//   const { getToken } = useAuth();
-//   const router = useRouter();
-
-//   const [loading, setLoading] = useState(true);
-//   const [storeInfo, setStoreInfo] = useState({
-//     name: "",
-//     username: "",
-//     description: "",
-//     email: "",
-//     contact: "",
-//     address: "",
-//     image: null,
-//   });
-
-//   const onChangeHandler = (e) => {
-//     setStoreInfo({ ...storeInfo, [e.target.name]: e.target.value });
-//   };
-
-//   const onImageChange = (e) => {
-//     if (e.target.files && e.target.files[0]) {
-//       setStoreInfo({ ...storeInfo, image: e.target.files[0] });
-//     }
-//   };
-
-//   const fetchSellerStatus = async () => {
-//     try {
-//       const token = await getToken();
-//       const { data } = await axios.get("/api/store/create", {
-//         headers: token ? { Authorization: `Bearer ${token}` } : {},
-//       });
-
-//       if (data.status && data.status !== "not registered") {
-//         toast.success(`Your store is ${data.status}`);
-//       }
-//     } catch (err) {
-//       console.error("Fetch store status error:", err);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const onSubmitHandler = async (e) => {
-//     e.preventDefault();
-//     if (!user) return toast.error("Please login to continue");
-//     if (!storeInfo.image) return toast.error("Please upload a store logo");
-
-//     try {
-//       const token = await getToken();
-//       const formData = new FormData();
-
-//       Object.keys(storeInfo).forEach((key) => {
-//         formData.append(key, storeInfo[key]);
-//       });
-
-//       const { data } = await axios.post("/api/store/create", formData, {
-//         headers: token ? { Authorization: `Bearer ${token}` } : {},
-//       });
-
-//       if (data.success) toast.success(data.message);
-//       else toast.error(data.error || "Something went wrong");
-//     } catch (err) {
-//       toast.error(err?.response?.data?.error || err.message);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchSellerStatus();
-//   }, []);
-
-//   if (!user) {
-//     return (
-//       <div className="min-h-[80vh] flex items-center justify-center text-slate-400">
-//         <h1 className="text-2xl sm:text-4xl font-semibold">
-//           Please <span className="text-slate-500">Login</span> to continue
-//         </h1>
-//       </div>
-//     );
-//   }
-
-//   return loading ? (
-//     <Loading />
-//   ) : (
-//     <div className="mx-6 min-h-[70vh] my-16">
-//       <form
-//         onSubmit={(e) =>
-//           toast.promise(onSubmitHandler(e), {
-//             loading: "Submitting data...",
-//           })
-//         }
-//         className="max-w-7xl mx-auto flex flex-col items-start gap-3 text-slate-500"
-//       >
-//         <h1 className="text-3xl">
-//           Add Your <span className="text-slate-800 font-medium">Store</span>
-//         </h1>
-
-//         <label className="mt-10 cursor-pointer">
-//           Store Logo
-//           <Image
-//             src={storeInfo.image ? URL.createObjectURL(storeInfo.image) : assets.upload_area}
-//             className="rounded-lg mt-2 h-16 w-auto"
-//             alt=""
-//             width={150}
-//             height={100}
-//           />
-//           <input type="file" accept="image/*" onChange={onImageChange} hidden />
-//         </label>
-
-//         {["username", "name", "description", "email", "contact", "address"].map((field) => (
-//           <div key={field} className="w-full max-w-lg flex flex-col gap-1">
-//             <p className="capitalize">{field}</p>
-//             {field === "description" || field === "address" ? (
-//               <textarea
-//                 rows={field === "description" ? 5 : 5}
-//                 name={field}
-//                 onChange={onChangeHandler}
-//                 value={storeInfo[field]}
-//                 className="border border-slate-300 outline-slate-400 p-2 rounded resize-none"
-//                 placeholder={`Enter your store ${field}`}
-//               />
-//             ) : (
-//               <input
-//                 name={field}
-//                 onChange={onChangeHandler}
-//                 value={storeInfo[field]}
-//                 type={field === "email" ? "email" : "text"}
-//                 placeholder={`Enter your store ${field}`}
-//                 className="border border-slate-300 outline-slate-400 p-2 rounded"
-//               />
-//             )}
-//           </div>
-//         ))}
-
-//         <button className="bg-slate-800 text-white px-12 py-2 rounded mt-10 mb-40 active:scale-95 hover:bg-slate-900 transition">
-//           Submit
-//         </button>
-//       </form>
-//     </div>
-//   );
-// }
-
-
-// "use client";
 
 // import { assets } from "@/assets/assets";
 // import { useEffect, useState } from "react";
@@ -344,7 +191,7 @@ import Loading from "@/components/Loading";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { CheckCircle, XCircle, Clock } from "lucide-react";
+import { Clock, CheckCircle, XCircle } from "lucide-react";
 
 export default function CreateStorePage() {
   const { user } = useUser();
@@ -353,6 +200,7 @@ export default function CreateStorePage() {
 
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState(""); // pending / approved / rejected
+  const [message, setMessage] = useState("");
   const [storeInfo, setStoreInfo] = useState({
     name: "",
     username: "",
@@ -375,7 +223,7 @@ export default function CreateStorePage() {
 
   const fetchSellerStatus = async () => {
     if (!user) {
-      setLoading(false);
+      setLoading(false); // no user, stop loading
       return;
     }
 
@@ -387,9 +235,17 @@ export default function CreateStorePage() {
 
       if (data.status && data.status !== "not registered") {
         setStatus(data.status);
-
-        if (data.status === "approved") {
-          setTimeout(() => router.push("/store"), 5000);
+        switch (data.status) {
+          case "pending":
+            setMessage("Your store application is pending approval.");
+            break;
+          case "approved":
+            setMessage("Your store has been approved! Redirecting to your store...");
+            setTimeout(() => router.push("/store"), 5000);
+            break;
+          case "rejected":
+            setMessage("Your store application was rejected. Please contact support.");
+            break;
         }
       }
     } catch (err) {
@@ -424,17 +280,7 @@ export default function CreateStorePage() {
 
   useEffect(() => {
     fetchSellerStatus();
-  }, [user]);
-
-  // Inside your component, after fetching the store status
-useEffect(() => {
-  if (status === "approved") {
-    // Redirect to /store after 5 seconds
-    const timer = setTimeout(() => router.push("/store"), 5000);
-    return () => clearTimeout(timer); // cleanup if component unmounts
-  }
-}, [status, router]);
-
+  }, [user]); // only run when user is available
 
   if (!user) {
     return (
@@ -448,48 +294,37 @@ useEffect(() => {
 
   if (loading) return <Loading />;
 
-  // Status card UI
   if (status) {
-    let icon, bgColor, textColor, message;
-
-    switch (status) {
-      case "pending":
-        icon = <Clock className="w-10 h-10 text-yellow-600" />;
-        bgColor = "bg-yellow-100";
-        textColor = "text-yellow-800";
-        message = "Your store application is pending approval. Please wait while our team reviews it.";
-        break;
-      case "approved":
-        icon = <CheckCircle className="w-10 h-10 text-green-600" />;
-        bgColor = "bg-green-100";
-        textColor = "text-green-800";
-        message = "Your store has been approved! Redirecting to your store...";
-        break;
-      case "rejected":
-        icon = <XCircle className="w-10 h-10 text-red-600" />;
-        bgColor = "bg-red-100";
-        textColor = "text-red-800";
-        message = "Your store application was rejected. Please contact support for details.";
-        break;
-    }
-
     return (
-      <div className="min-h-[80vh] flex items-center justify-center px-4">
-        <div className={`max-w-md w-full p-8 rounded-xl shadow-lg flex flex-col items-center ${bgColor}`}>
-          {icon}
-          <h2 className={`mt-4 text-2xl font-semibold ${textColor}`}>{status.toUpperCase()}</h2>
-          <p className="mt-2 text-center text-slate-700">{message}</p>
-          {status === "approved" && (
-            <p className="mt-3 text-slate-500">
-              Redirecting in <span className="font-semibold">5 seconds</span>...
-            </p>
-          )}
-        </div>
-      </div>
+ <div className="min-h-[80vh] flex flex-col items-center justify-center text-center px-6">
+  <div
+    className={`max-w-2xl w-full px-8 py-6 rounded-2xl shadow-lg flex flex-col items-center gap-4 transition-all duration-300
+      ${status === "pending" ? "bg-yellow-50 border-2 border-yellow-300 text-yellow-700" : ""}
+      ${status === "approved" ? "bg-green-50 border-2 border-green-300 text-green-700" : ""}
+      ${status === "rejected" ? "bg-red-50 border-2 border-red-300 text-red-700" : ""}`}
+  >
+    {/* Icon */}
+    <div className="flex justify-center">
+      {status === "pending" && <Clock className="h-12 w-12 text-yellow-600 animate-pulse" />}
+      {status === "approved" && <CheckCircle className="h-12 w-12 text-green-600" />}
+      {status === "rejected" && <XCircle className="h-12 w-12 text-red-600" />}
+    </div>
+
+    {/* Message */}
+    <p className="sm:text-2xl lg:text-3xl font-bold">{message}</p>
+  </div>
+
+  {status === "approved" && (
+    <p className="mt-6 text-lg text-slate-600">
+      Redirecting to your store in{" "}
+      <span className="font-semibold text-green-700">5 seconds</span>...
+    </p>
+  )}
+</div>
+
     );
   }
 
-  // Store form
   return (
     <div className="mx-6 min-h-[70vh] my-16">
       <form

@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 
 //toggle store  isActive
 
-export async function GET(request) {
+export async function POST(request) {
   try {
     const { userId } = getAuth(request);
 
