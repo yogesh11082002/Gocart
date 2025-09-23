@@ -3,29 +3,66 @@ import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 import Image from "next/image"
 import Loading from "@/components/Loading"
-import { productDummyData } from "@/assets/assets"
+import axios from "axios"
+import { useAuth, useUser } from "@clerk/nextjs"
 
 export default function StoreManageProducts() {
 
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$'
 
+    const {user}= useUser();
+    const {getToken} = useAuth();
     const [loading, setLoading] = useState(true)
     const [products, setProducts] = useState([])
 
     const fetchProducts = async () => {
-        setProducts(productDummyData)
-        setLoading(false)
+        
+         try {
+      const token = await getToken();
+     
+
+      const { data } = await axios.get("/api/store/product", {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+
+      setProducts(data.products.sort((a,b)=> new Date(b.createdAt)-  new Date(a.createdAt) ));
+
+    } catch (err) {
+      toast.error(err?.response?.data?.error || err.message);
+    }
+    setLoading(false);
+
     }
 
     const toggleStock = async (productId) => {
         // Logic to toggle the stock of a product
 
+        try {
+            
+        const token = await getToken();
+     
 
+      const { data } = await axios.post("/api/store/stock-toggle",{productId} , {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+
+      setProducts(prevProducts => prevProducts.map(product=> product.id === productId ?{
+        ...product, inStock: !product.inStock
+      } :product))
+
+      toast.success(data.message)
+        } catch (error) {
+                  toast.error(err?.response?.data?.error || err.message);
+        }
     }
 
+
     useEffect(() => {
+        if (user) {
             fetchProducts()
-    }, [])
+        }
+            
+    }, [user])
 
     if (loading) return <Loading />
 

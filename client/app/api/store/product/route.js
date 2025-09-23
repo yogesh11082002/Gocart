@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import imagekit from "@/configs/imageKit";
 
 
-export async function Post(request) {
+export async function POST(request) {
   try {
     const { userId } = getAuth(request);
 
@@ -28,7 +28,7 @@ export async function Post(request) {
     const description = formData.get("description");
     const mrp = Number(formData.get("mrp"));
     const price =  Number(formData.get("price"));
-    const category = formData.get("Category");
+    const category = formData.get("category");
     const images = formData.getAll("images");
 
     // ✅ Check all required fields
