@@ -12,9 +12,12 @@ export async function GET(request) {
                     createdAt:true , rating:true, review:true , 
                     user:{ select:{name:true , image:true}}
                 }
-            }
-        }
+            },
+            store:true
+        },
+        orderBy:{createdAt:'desc'}
     })
+    // remove product is  isactive false
 
   } catch (error) {
     console.error("GET error:", error);
