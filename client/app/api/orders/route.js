@@ -109,9 +109,10 @@ export async function POST(request) {
     return NextResponse.json({message:"Order placed succesfully"})
 
   } catch (error) {
-    console.error("POST error:", error);
-    return NextResponse.json({ error: error.code || error.message }, { status: 400 });
-  }
+    console.error("POST error full:", error);
+    return NextResponse.json({ error: JSON.stringify(error, Object.getOwnPropertyNames(error)) }, { status: 400 });
+}
+
 }
 
 
@@ -145,8 +146,9 @@ export async function GET(request) {
 
     return NextResponse.json({orders})
 
-  } catch (error) {
-    console.error("GET error:", error);
-    return NextResponse.json({ error: error.message }, { status: 400 });
-  }
+ } catch (error) {
+    console.error("GET error full:", error);
+    return NextResponse.json({ error: JSON.stringify(error, Object.getOwnPropertyNames(error)) }, { status: 400 });
+}
+
 }
