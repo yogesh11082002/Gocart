@@ -5,6 +5,9 @@ import { useEffect, useState } from "react"
 import { MailIcon, MapPinIcon } from "lucide-react"
 import Loading from "@/components/Loading"
 import Image from "next/image"
+import toast from "react-hot-toast"
+import axios from "axios"
+
 
 
 export default function StoreShop() {
@@ -16,6 +19,17 @@ export default function StoreShop() {
 
     const fetchStoreData = async () => {
         
+        try {
+            const { data } = await axios.get(`/api/store/data?username=${username}` )
+            setStoreInfo(data.store)
+            setProducts(data.store.Product)
+        } catch (error) {
+            console.log(error)
+        toast.error(error?.response?.data?.message || error.message)
+        }
+
+        setLoading(false)
+
     }
 
     useEffect(() => {
