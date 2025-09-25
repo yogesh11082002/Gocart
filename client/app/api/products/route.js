@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 
 export async function GET(request) {
@@ -17,7 +18,10 @@ export async function GET(request) {
         },
         orderBy:{createdAt:'desc'}
     })
-    // remove product is  isactive false
+    // remove product when  isactive false
+
+    products = products.filter(product => product.store.isActive)
+    return NextResponse.json({products})
 
   } catch (error) {
     console.error("GET error:", error);
