@@ -139,10 +139,10 @@ const Footer = () => {
   ]
 
   const socialIcons = [
-    { icon: FacebookIcon, link: "https://www.facebook.com" },
-    { icon: InstagramIcon, link: "https://www.instagram.com" },
-    { icon: TwitterIcon, link: "https://twitter.com" },
-    { icon: LinkedinIcon, link: "https://www.linkedin.com" },
+    { icon: FacebookIcon, link: "https://www.facebook.com/yogesh.sengar.589/" },
+    { icon: InstagramIcon, link: "https://www.instagram.com/yogesh_thakur_1108" },
+    { icon: TwitterIcon, link: "https://twitter.com/YogeshT12554000" },
+    { icon: LinkedinIcon, link: "https://www.linkedin.com/in/yogesh-sengar-982465232/" },
   ]
 
   useEffect(() => {
