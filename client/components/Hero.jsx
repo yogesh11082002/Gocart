@@ -33,10 +33,12 @@
 //   }, [])
 
 //   return (
-//     <div className='mx-4 my-6 max-h-[650px] overflow-hidden' ref={containerRef}>
+//     <div className='mx-4 my-6 overflow-hidden' ref={containerRef}>
+//       {/* Main container */}
 //       <div className='flex flex-col xl:flex-row gap-4 max-w-6xl mx-auto'>
+
 //         {/* Left Hero Slider */}
-//         <div className='flex-1 max-h-[420px]'>
+//         <div className='flex-1 h-[420px] sm:h-[480px] md:h-[450px] xl:h-auto'>
 //           <HeaderSlider />
 //         </div>
 
@@ -46,7 +48,7 @@
 //             <div
 //               key={i}
 //               ref={(el) => (cardsRef.current[i] = el)}
-//               className={`flex-1 flex items-center justify-between max-h-[240px] p-4 rounded-2xl group ${
+//               className={`flex-1 flex items-center justify-between min-h-[200px] sm:min-h-[150px] sm:max-h-[140px] p-4 rounded-2xl group ${
 //                 i === 0 ? 'bg-orange-200' : 'bg-blue-200'
 //               }`}
 //             >
@@ -87,6 +89,7 @@
 import { assets } from '@/assets/assets'
 import { ArrowRightIcon } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { useEffect, useRef } from 'react'
 import CategoriesMarquee from './CategoriesMarquee'
 import gsap from 'gsap'
@@ -145,9 +148,14 @@ const Hero = () => {
                 >
                   {i === 0 ? 'Best products' : '20% discounts'}
                 </p>
-                <p className='flex items-center gap-1 mt-1'>
-                  View more{' '}
-                  <ArrowRightIcon className='group-hover:ml-1 transition-all' size={14} />
+                <p className="mt-1">
+                  <Link href="/shop" className="flex items-center gap-1 group">
+                    View more
+                    <ArrowRightIcon
+                      className="group-hover:ml-1 transition-all"
+                      size={14}
+                    />
+                  </Link>
                 </p>
               </div>
               <Image

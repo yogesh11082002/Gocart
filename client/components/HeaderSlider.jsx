@@ -18,7 +18,7 @@
 //     },
 //     {
 //       id: 2,
-//       title: "Upgrade Your Workspace - Premium Keyboards",
+//       title: "Next-Level Sound - Crystal Clear Speakers",
 //       offer: "Limited Time Offer 20% OFF",
 //       price: "9.99",
 //       imgSrc: assets.product_img5,
@@ -26,7 +26,7 @@
 //     },
 //     {
 //       id: 3,
-//       title: "Next-Level Sound - Crystal Clear Earbuds",
+//       title: "Next-Level Security - Crystal Clear Vision",
 //       offer: "Hurry! Only Few Left",
 //       price: "12.50",
 //       imgSrc: assets.product_img6,
@@ -34,7 +34,7 @@
 //     },
 //     {
 //       id: 4,
-//       title: "Smartwatch Collection - Stay Connected",
+//       title: "SmartPen Collection - Stay Connected",
 //       offer: "Special Offer 15% Off",
 //       price: "15.00",
 //       imgSrc: assets.product_img7,
@@ -60,7 +60,7 @@
 //         {sliderData.map((slide) => (
 //           <div
 //             key={slide.id}
-//             className={`relative flex-1 flex flex-col ${slide.bgColor} rounded-2xl min-w-full h-full`}
+//             className={`relative flex-1 flex flex-col ${slide.bgColor} rounded-2xl min-w-full h-[520px] sm:h-full`}
 //           >
 //             <div className="p-4 sm:p-6">
 //               {/* Offer bar */}
@@ -117,12 +117,12 @@
 
 // export default HeaderSlider;
 
-
 'use client'
 import React, { useState, useEffect } from "react";
 import { assets } from "@/assets/assets";
 import Image from "next/image";
 import { ChevronRightIcon } from "lucide-react";
+import Link from "next/link";
 
 const HeaderSlider = () => {
   const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "$";
@@ -201,10 +201,13 @@ const HeaderSlider = () => {
                 <p className="text-2xl">{currency}{slide.price}</p>
               </div>
 
-              {/* Button */}
-              <button className="bg-slate-800 text-white text-sm py-2 px-6 mt-2 sm:mt-3 rounded-md hover:bg-slate-900 hover:scale-103 active:scale-95 transition">
+              {/* Learn More Button */}
+              <Link
+                href="/shop"
+                className="inline-block bg-slate-800 text-white text-sm py-2 px-6 mt-2 sm:mt-3 rounded-md hover:bg-slate-900 hover:scale-103 active:scale-95 transition"
+              >
                 LEARN MORE
-              </button>
+              </Link>
             </div>
 
             {/* Image */}
