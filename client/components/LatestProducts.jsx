@@ -18,11 +18,11 @@ const LatestProducts = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Fade in section when it scrolls into view
+   
       gsap.from(sectionRef.current, {
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 80%', // when top of section hits 80% of viewport height
+          start: 'top 80%',
           toggleActions: 'play none none none',
         },
         opacity: 0,
@@ -31,7 +31,6 @@ const LatestProducts = () => {
         ease: 'power3.out',
       })
 
-      // Animate cards with stagger when they scroll into view
       gsap.from(cardsRef.current, {
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -51,8 +50,7 @@ const LatestProducts = () => {
   }, [])
 
   return (
-    <div ref={sectionRef} className='px-6 my-30 max-w-6xl mx-auto'>
-      {/* Title with framer-motion */}
+    <div ref={sectionRef} className='px-6 my-30 max-w-6xl mx-auto -mt-10'>
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -68,7 +66,6 @@ const LatestProducts = () => {
         />
       </motion.div>
 
-      {/* Products grid */}
       <div className='mt-12 grid grid-cols-2 sm:flex flex-wrap gap-6 justify-between'>
         {products
           .slice()
